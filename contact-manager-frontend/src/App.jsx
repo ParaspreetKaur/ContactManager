@@ -5,8 +5,8 @@ import AddContact from "./components/AddContact";
 import ContactList from "./components/ContactList";
 import EditContact from "./components/EditContact";
 import ViewContact from "./components/ViewContact";
-import "./App.css";
 import Footer from "./components/Footer";
+import "./App.css";
 
 function App() {
   const [contacts, setContacts] = useState([]);
@@ -27,7 +27,10 @@ function App() {
 
   const addContact = async (contact) => {
     try {
-      const res = await axios.post("http://localhost:4000/api/contacts", contact);
+      const res = await axios.post(
+        "http://localhost:4000/api/contacts",
+        contact
+      );
       setContacts([...contacts, res.data]);
     } catch (err) {
       console.error(err);
@@ -36,7 +39,10 @@ function App() {
 
   const updateContact = async (id, updatedContact) => {
     try {
-      const res = await axios.put(`http://localhost:4000/api/contacts/${id}`, updatedContact);
+      const res = await axios.put(
+        `http://localhost:4000/api/contacts/${id}`,
+        updatedContact
+      );
       setContacts(contacts.map((c) => (c._id === id ? res.data : c)));
     } catch (err) {
       console.error(err);
@@ -55,39 +61,80 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <nav className="navbar">
-          <h2 className="logo">Contact Manager</h2>
-          <ul className="nav-links">
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/add">Add Contact</Link></li>
-          </ul>
+        
+        {/* Navbar */}
+        <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-4">
+          <div className="container-fluid">
+            <Link className="navbar-brand fw-bold" to="/">
+              Contact Manager
+            </Link>
+
+            <button
+              className="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarNav"
+            >
+              <span className="navbar-toggler-icon"></span>
+            </button>
+
+            <div className="collapse navbar-collapse" id="navbarNav">
+              <ul className="navbar-nav ms-auto">
+                <li className="nav-item">
+                  <Link className="nav-link" to="/">
+                    Home
+                  </Link>
+                </li>
+
+                <li className="nav-item">
+                  <Link className="nav-link" to="/add">
+                    Add Contact
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          </div>
         </nav>
 
-        <div className="content">
+        {/* Main Content */}
+        <div className="container mt-4 mb-5">
           <Routes>
             <Route
               path="/"
-              element={<ContactList contacts={contacts} deleteContact={deleteContact} />}
+              element={
+                <ContactList
+                  contacts={contacts}
+                  deleteContact={deleteContact}
+                />
+              }
             />
+
             <Route
               path="/add"
               element={<AddContact addContact={addContact} />}
             />
+
             <Route
               path="/edit/:id"
-              element={<EditContact contacts={contacts} updateContact={updateContact} />}
+              element={
+                <EditContact
+                  contacts={contacts}
+                  updateContact={updateContact}
+                />
+              }
             />
+
             <Route
               path="/view/:id"
               element={<ViewContact contacts={contacts} />}
             />
           </Routes>
         </div>
+
         <Footer />
       </div>
     </Router>
   );
-
 }
 
 export default App;

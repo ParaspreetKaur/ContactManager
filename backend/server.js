@@ -1,9 +1,11 @@
-import express from "express";
-import mongoose from "mongoose";
-import cors from "cors";
-import contactsRouter from "./routes/contacts.js";  // ✅ use import, not require
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+
+const contactsRouter = require("./routes/contacts");
 
 const app = express();
+
 app.use(cors());
 app.use(express.json());
 
@@ -16,7 +18,10 @@ mongoose.connect("mongodb://127.0.0.1:27017/contactdb")
 app.use("/api/contacts", contactsRouter);
 
 const PORT = 4000;
-app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});
 
 
 

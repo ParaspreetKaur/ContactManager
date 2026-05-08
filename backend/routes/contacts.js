@@ -1,7 +1,6 @@
-import express from "express";
-import Contact from "../models/Contact.js";
-
+const express = require("express");
 const router = express.Router();
+const Contact = require("../models/Contact");
 
 // GET all contacts
 router.get("/", async (req, res) => {
@@ -46,4 +45,4 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-export default router;
+module.exports = router;
